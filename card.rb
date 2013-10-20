@@ -4,7 +4,7 @@ class Card
     #
     
     # The Comparable mixin allows us to compare objects
-    # using any of the comparison operators by only implmenting
+    # using any of the comparison operators by only implementing
     # the <=> method.
     include Comparable
 
