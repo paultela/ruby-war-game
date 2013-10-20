@@ -52,7 +52,22 @@ class War
         # Winner then takes all cards played.
         #
         have_winner = false
-        temporary_deck = [player_one_initial_card, player_two_initial_card]
+        temporary_deck = []
+        
+
+        if @player_one_deck.count == 0
+            player_one_card = player_one_initial_card
+        else
+            temporary_deck.push(player_one_initial_card)
+            player_one_card = @player_one_deck.shift
+        end
+
+        if @player_two_deck.count == 0
+            player_two_card = player_two_initial_card
+        else
+            temporary_deck.push(player_two_initial_card)
+            player_two_card = @player_two_deck.shift
+        end
 
         until have_winner
             puts "It's WAR!!"
@@ -60,27 +75,31 @@ class War
                 # Must be able to play one card
                 if deck.count > 3
                     deck.shift(3)
-                elsif deck.count > 0
+                elsif deck.count > 0 
                     deck.shift(deck.count - 1)
                 else
-                    raise "No cards left in deck, oh no!"
+                    puts "Player has #{deck.count} cards"
+                    []
                 end
             end
 
             temporary_deck.push(*(shifted_cards.flatten))
 
-            player_one_card, player_two_card = *play_cards
-
             if player_one_card == player_two_card
                 # If this is their last card, don't put it in the temporary deck
                 if player_one_deck.count > 0
                     temporary_deck.push player_one_card
+                else
+                    @player_one_deck.push(player_one_card)
                 end
 
                 if player_two_deck.count > 0
                     temporary_deck.push player_two_card
+                else
+                    @player_two_deck.push(player_two_card)
                 end
 
+                player_one_card, player_two_card = *play_cards
             else
                 have_winner = true
                 temporary_deck.push(player_one_card, player_two_card)
@@ -93,12 +112,10 @@ class War
             # Note use of splat operator to expand the array
             @player_one_deck.push(*temporary_deck)
         else
-
             puts "Giving #{temporary_deck.count} cards to player 2"
             # Note use of splat operator to expand the array
             @player_two_deck.push(*temporary_deck)
         end
-
     end
 
     def is_over?
