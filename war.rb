@@ -18,6 +18,9 @@ class War
     end
 
     def play_cards
+        ##
+        # Takes a card from each players deck and returns them as an array.
+        #
         player_one_card = @player_one_deck.shift
         player_two_card = @player_two_deck.shift
 
@@ -134,6 +137,9 @@ class War
     end
 
     def winner
+        ##
+        # Returns the winner of the game if it is over, Nil otherwise
+        #
         if is_over?
             if @player_one_deck.count > 0 then "Player 1" else "Player 2" end
         end
